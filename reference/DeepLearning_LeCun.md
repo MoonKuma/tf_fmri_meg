@@ -69,7 +69,7 @@ representation at a higher, slightly more abstract level.
 
 ​	且这个定义好的，三层，每层1000~2000的神经元的网络，并不局限于训练数字识别，其他的简单的特性识别，例如手写的标点符号，英文字母，等等几乎都是可以用同一个模型不加任何修改达到同样好的效果的。
 
-​	这也正是**Deep-learning和核心，即“自动抽象”， 在学习过程计算机提取出的特征不是由有经验的工程师制定的，而是由机器根据数据自主归纳产生的**,。虽然在绝大部分被证明有用的模型中，开发者都无法准确说明为什么自己的神经网络学习可以实现这样的效果，但是从工业化的角度来说，因为他的这种自动抽象的特性，导致很多经过简单设计的模型已经可以起到之前复杂的传统模型无法实现的效果。**这也带来对于我们今天要做的，使用deep-learning重新挖掘脑成像数据的佐证，有别于之前传统的通过对齐，剪裁，提取，进行统计模型比较（比如fmri里面的计算HRF然后比较相关性得到contrast值），通过设计将成像数据喂（feed）给deep-learning系统后，他会自主抽象出可能存在的，用以区分不同刺激的特征以及组合方法。**
+​	这也正是**Deep-learning和核心，即“自动抽象”， 在学习过程计算机提取出的特征不是由有经验的工程师制定的，而是由机器根据数据自主归纳产生的**,。虽然在绝大部分被证明有用的模型中，开发者都无法准确说明为什么自己的神经网络学习可以实现这样的效果，但是从工业化的角度来说，因为他的这种自动抽象的特性，导致很多经过简单设计的模型已经可以起到之前复杂的传统模型无法实现(state of the art)的成就。**这也带来对于我们今天要做的，使用deep-learning重新挖掘脑成像数据的佐证。有别于之前传统的通过对齐，剪裁，提取，进行统计模型比较（比如fmri里面的计算HRF然后比较相关性得到contrast值），通过设计将成像数据喂（feed）给deep-learning系统后，他会自主抽象出可能存在的，用以区分不同刺激的特征以及组合方法。**
 
 ```python
 '''
@@ -104,13 +104,13 @@ language translation16,17.
 
 ​	文章的段落2，包含两大部分，第一部分从开始截止到第二页左上，介绍了监督学习中的一些基本概念与原理。第二部分从第二页右上开始（Many of the current practical ... ...）一直到整个段落结束，这一部分进一步比较了deep-learning和之前的‘shallow’ classifier 之间的差别。
 
-​	关于基本原理部分，deep-learning在supervised的情境下，应用到的机器学习的基本原理与一般supervised learning是相同的（甚至选择了其中更为简单的样式），即线性回归的方法。没两个连续的单元之间，都是一层线性的关系，简单可以概括成Y=kX+b， k即权重，b是截距，然后每次计算之后比较预测的y与真实的y的差别（error），并通过随机（每次随机选择一个case）梯度（求偏导数的极端值找到可以最快变化的方向）速降（SGD）的方法，快速找到可以使误差最小的参数集。之后再用训练集得到的结果，比较一个同类而不在训练集中的样本集的表现（test），得到对于模型好坏的评估。
+​	关于基本原理部分，deep-learning在supervised的情境下，应用到的机器学习的基本原理与一般supervised learning是相同的（甚至选择了其中更为简单的样式），即线性回归的方法。每两个连续的单元之间，都是一层线性的关系，简单可以概括成Y=kX+b（在Y值是类型变量，例如1/0这种情况的时候，还要套上一个ReLu的矫正方程，f(x)=max(0,x)，把小于0的部分裁去）， k即权重，b是截距，然后每次计算之后比较预测的y与真实的y的差别（error），并通过随机（每次随机选择一个case）梯度（求偏导数的极端值找到可以最快变化的方向）速降（SGD）的方法，快速找到可以使误差最小的参数集。之后再用训练集得到的结果，比较一个同类而不在训练集中的样本集的表现（test），得到对于模型好坏的评估。
 
-​	换言之，一个最简单的神经网络模型，或者说没有中间层的模型，就是简单的线性回归模型。而神经网络结构的复杂性和其独特的抽象能力，不是由于这些底层的优化器或者误差函数的改进实现的，而是通过网络这种想法实现的（参考下图，即原文的Figure1，c）。图中，神经元j的信号值，是由其下三个输入神经元以及他们对应的一组参数决定，所以最终J=w1·input(1) + wij·input(i) + w3*input(3) + b， 同理适用于J的附近兄弟3个神经元，以及j向上的H2层，一直到output层，此时output的结果已经是input经过三次抽象与优化得到得了，在比较这个output和最终监督值y的时候，output就可以捕获大量抽象的信息，而不简单只是各个输入的增加或者减少了。
+​	换言之，一个最简单的神经网络模型，或者说没有中间层的模型，就是简单的线性回归模型。而神经网络结构的复杂性和其独特的抽象能力，不是由于这些底层的优化器或者误差函数的改进实现的，而是通过“网络化”简单模型实现的（参考下图，即原文的Figure1，c）。图中，神经元j的信号值，是由其下三个输入神经元以及他们对应的一组参数决定，所以最终J=w1·input(1) + wij·input(i) + w3*input(3) + b， 同理适用于J的附近兄弟3个神经元，以及j向上的H2层，一直到output层，此时output的结果已经是input经过三次抽象与优化得到得了，在比较这个output和最终监督值y的时候，output就可以捕获大量抽象的信息，而不简单只是各个输入的增加或者减少了。
 
 ​	![image1](https://github.com/MoonKuma/tf_fmri_meg/blob/master/reference/deep_learning/images/deep_learning_f1.png)
 
-​	关于第二部分，比较deep-learning和其他线性的或者非线性和‘shallow classifier’之间的差别。文中举出了一个非常生动的萨摩耶-狼的例子，因为线性classifier会无差别的捕获不同x之间的差异，所以结果是，对于任何线性classifier，一直面向画面左侧的萨摩耶，和一只面向画面右侧的萨摩耶之间的差别，总是远大于他和一只面向左侧的狼的差别的。而即便是对于非线性的简单classifier（例如SVM），在实现区分抽象差异的功能的时候，依然会受限于有限的泛化能力，如利用高斯核函数Gaussian Kernal的非线性分类器只会把属于某类的Y的X在其对应向量面附近的点包含在自己的类当中（高斯指的是用正态分布的方式决定其他点与自己的相似度，距离远的点会被迅速排除出当前类中）。也因此，在使用的时候，对于应用者的经验（应用者能否准确的提取出样本与测试集中的有用的要素，应用者能否判断什么程度的泛化是合适的）就有了很高的要求。也就是在此处，作者再一次强调了deep-learning无需过多人为干预即可实现抽象提取的特性。
+​	关于第二部分，比较deep-learning和其他线性的或者非线性和‘shallow classifier’之间的差别。文中举出了一个非常生动的萨摩耶-狼的例子，因为线性classifier（浅层classifer也包括线性和非线性的）会无差别的捕获不同x之间的差异，所以结果是，对于任何线性classifier，一直面向画面左侧的萨摩耶，和一只面向画面右侧的萨摩耶之间的差别，总是远大于他和一只面向左侧的狼的差别的。而即便是对于非线性的简单classifier（例如SVM），在实现区分抽象差异的功能的时候，依然会受限于有限的泛化能力，如利用高斯核函数Gaussian Kernal的非线性分类器只会把属于某类的Y的X在其对应向量面附近的点包含在自己的类当中（高斯核指的是用正态分布的方式决定其他点与自己的相似度，距离远的点会被迅速排除出当前类中）。也因此，在使用的时候，对于应用者的经验（应用者能否准确的提取出样本与测试集中的有用的要素，应用者能否判断什么程度的泛化是合适的）就有了很高的要求。也就是在此处，作者再一次强调了deep-learning无需过多人为干预即可实现抽象提取的特性。
 
 ```python
 '''
@@ -159,7 +159,7 @@ average error. In practice, poor local minima are rarely a problem with large ne
 
 ​	卷积神经网络，是传统的深度学习网络的一种变体，通过模仿生物视觉加工（感受野）的方式，对于输入进行有规律的，按块提取，进而实现了大幅优化学习效率的结果。
 
-​	如文中所说，之所以图片识别可以使用卷积网络进行优化，依赖于图片本身的四个主要特点，即：local connection，shared weight， pooling 和 the use of many leayers。 local connection指的是一般的图片识别任务，在2D空间上相邻的点，具有相似的特征（眼睛上的一个像素点它旁边的像素也很有可能是眼睛），shared weight 指的是，同一个特性，例如眼睛，出现在图片的不同位置，都是有可能的，也都应当被当做同一种特性来处理。Pooling，从概念上指的是复杂图片可以被抽象成简单要素的集合，而实际应用中，这种抽象转化为计算卷积（筛选特征）之后不同的卷积结果的最大值或者均值。最后，所以多layers则是作者用人类视觉系统做的一个类比，即图片的不同特征实在不同层抽象出来，初始可能只是简单的形状或者颜色，而高层的抽象则包含了更复杂的信息，例如形状的组合等。
+​	如文中所说，之所以图片识别可以使用卷积网络进行优化，依赖于图片本身的四个主要特点，即：local connection，shared weight， pooling 和 the use of many layers。 local connection指的是一般的图片识别任务，在2D空间上相邻的点，具有相似的特征（眼睛上的一个像素点它旁边的像素也很有可能是眼睛），shared weight 指的是，同一个特性，例如眼睛，出现在图片的不同位置，都是有可能的，也都应当被当做同一种特性来处理。Pooling，从概念上指的是复杂图片可以被抽象成简单要素的集合，而实际应用中，这种抽象转化为计算卷积核（筛选特征）之后不同的卷积结果的最大值或者均值。最后，所以多layers则是作者用人类视觉系统做的一个类比，即图片的不同特征实在不同层抽象出来（下面的引文里面直接提到了LGN-V1-V2的通路），初始可能只是简单的形状或者颜色，而高层的抽象则包含了更复杂的信息，例如形状的组合等。
 
 ```python
 '''
@@ -176,13 +176,13 @@ ventral pathway44.
 
 
 
-​	在应用层上，CNN模型用卷积层+池化层(convolution + poolling)代替了中间的训练层，通过利用图像本身的特点，简化训练过程（原始的模型是1个像素1个像素处理，而卷积之后可以用5x5,7x7的卷积核去处理，进而减少计算量并约束了重要的图形信息），一般的CNN网络包含一个输入层+数个卷积/池化层+1~2个全连接层（所谓全连接就是最初的神经网络结构，在出口处需要用全连接层与输出值对接）。
+​	在应用层上，CNN模型用卷积层+池化层(convolution + pooling)代替了中间的训练层，通过利用图像本身的特点，简化训练过程（原始的模型是1个像素1个像素处理，而卷积之后可以用5x5,7x7的卷积核去处理，进而减少计算量并约束了重要的图形信息），一般的一个简单的CNN网络包含一个输入层+数个卷积/池化层+1~2个全连接层（所谓全连接就是最初的神经网络结构，在出口处需要用全连接层与输出值对接）。
 
 ​	因为卷积的加入，在模型上卷积模型也会看上去更加复杂一些，下图是Hinton在上面文章中提到的自己的模型：
 
 ![image7](https://github.com/MoonKuma/tf_fmri_meg/blob/master/reference/deep_learning/images/deep_learning_f7.png)
 
-​	需要注意，卷积神经网络，只有在处理图像相关，或类图像问题上才能体现出其优越性来。且卷积神经网络不单单适用于2D图像，对于3D的图像，也有封装好的计算方法（这种3D的处理常常被用在视频解析，2D的图像+时间轴构成了3D，且相邻的时间，相似的图像点之间依然具有可被卷积的特性：local connection/shared weight等等。而在颜色有意义的2D图像识别中，也是需要3D的卷积核的，因为此时平面图本身就是3D的，每一个点都包含了一组RGB三个值，224x224的图像其实的数学展示是224x224x3），**我们这次要做MGE/fMRI的学习，也是要用到这个3D的卷积核**。如果仔细观察上面Hinton的模型，你会发现他也是在用3D卷积核。
+​	需要注意，**卷积神经网络，只有在处理图像相关，或类图像问题上才能体现出其优越性来。**且卷积神经网络不单单适用于2D图像，对于3D的图像，也有封装好的计算方法（这种3D的处理常常被用在视频解析，2D的图像+时间轴构成了3D，且相邻的时间，相似的图像点之间依然具有可被卷积的特性：local connection/shared weight等等。而在颜色有意义的2D图像识别中，也是需要3D的卷积核的，因为此时平面图本身就是3D的，每一个点都包含了一组RGB三个值，224x224的图像其实的数学展示是224x224x3），**我们这次要做MGE/fMRI的学习，也是要用到这个3D的卷积核**。如果仔细观察上面Hinton的模型，你会发现他也是在用3D卷积核。
 
 ​       此外，另一个特点是，因为是图像卷积处理，所以使用GPU（也就是独立显卡的计算核），可以大幅优化学习效率，在Hinton获奖的文章中，他用的两块GTX-580的GPU（8年前），实际上随着显卡制造业的飞速进展，现在大家已经在用1080TI或者更高级的特斯拉（专门用来机器学习的显卡）计算了。
 
@@ -192,7 +192,7 @@ ventral pathway44.
 
 ​	Deep-learning之所以会在这几年突然火爆起来，Hinton的CNN的贡献功不可没。不过很大原因也是因为随着智能设备（手机，电脑）和网络的普及，数据越来越多，获取数据也越来越方便。另一方面硬件设备的飞速发展也让之前理论上需要计算几年的模型可以在几分钟之内得到结果。两大优势，再加上CNN相对傻瓜（不需要对数据进行过多的预处理，也不需要应用者由强大的数学知识）的特点，使得CNN如雨后春笋在各行各业蓬勃发展起来。
 
-​	在段落2中，他提到了两个用来防止过拟合的方法，一个是dropout，指的是训练的时候，每次随机关闭一部分神经元（如果部分神经元就可以表现的一样好，那就不需要全部的神经元了）。另一个是data augumentation，指的是在使用原始图片训练的同时，也是用原始图片剪裁后的图片训练（如果对少量信息也可以得到一样好的预测结果，就需要解读全部信息了）。这两种方法现在已经基本成了CNN的标配了。
+​	在段落2中，他提到了两个用来防止过拟合的方法，一个是dropout，指的是训练的时候，每次随机关闭一部分神经元（如果部分神经元就可以表现的一样好，那就不需要全部的神经元了）。另一个是data augmentation，指的是在使用原始图片训练的同时，也是用原始图片剪裁后的图片训练（如果对少量信息也可以得到一样好的预测结果，就需要解读全部信息了）。这两种方法现在已经成了CNN的标配了。
 
 #### 段落6：Distributed representations and language processing（分布表征与语言处理）
 
@@ -215,11 +215,11 @@ from text are now very widely used in natural language applications.
 '''
 ```
 
-​	考虑一个切实的情况也许更容易理解一些，当出现一个英文句子填词，I want to go shopping on ___, 的时候，填入Wednesday（或者Tuesday/Holloween/Christmas）是合适的，填入apple/cat显然是不合适的。这说明Tuesday/Holloween/Christmas/Wednesday在某种意义上（虽然他们表面上看起来大相径庭）具有相似的表征（representation，这里表征的是一个确定的日期），这就是所谓的分布表征，不同的词，可以通过一定的表征方法，建立起他们之间的关联。
+​	考虑一个切实的情况也许更容易理解一些，当出现一个英文句子填词，I want to go shopping on ___, 的时候，填入Wednesday（或者Tuesday/Holloween/Christmas）是合适的，填入apple/cat显然是不合适的。这说明Tuesday/Holloween/Christmas/Wednesday在某种意义上（虽然他们表面上看起来大相径庭）具有相似的表征（representation，这里表征的是一个确定的日期），不同的词分别可以映射到不同的表征上，就形成了一个表征的分布，这就是所谓的分布表征。不同的词，可以通过一定的表征方法，建立起他们之间的关联。
 
-​	分布表征是所有语言学习共同的概念，deep-learning和传统方法的争论主要在于如何表征的问题上。
+​	分布表征是所有语言学习共同的概念，也是自然语言处理的核心（即每一个词是什么含义，他是如何和其他的词作用的），deep-learning和传统方法的争论主要在于如何表征的问题上。
 
-​	这里作者提到了一种叫做N-grams的方法，其实这也是之前最常用的自然语言处理的方法，这里简单介绍一下。假如有一个问题，判断以下句子的合法性，I wish to eat computer keyboard with Mary. 要如何判断呢，在2-grams的方法下，是这样进行处理的。句子的合理性 = 句子中所有词同时出现的合理性= 第一个词出现的概率x第一个词的基础上第二个词出现的概率x前两个词的基础上第三个词出现的概率....
+​	这里先介绍一种作者提到的叫做N-grams的方法，其实这也是之前最常用的自然语言处理的方法。假如有一个问题，判断以下句子的合法性，I wish to eat computer keyboard with Mary. 要如何判断呢，在2-grams的方法下，是这样进行处理的。句子的合理性 = 句子中所有词同时出现的合理性= 第一个词出现的概率x第一个词的基础上第二个词出现的概率x前两个词的基础上第三个词出现的概率....
 
 ​        写成公式是这样的
 
@@ -234,17 +234,17 @@ P(s) = P(w1,w2,w3....w8) = p(w1) * p(w2|w1) * p(w3|w1,w2)...*p(w8|w1*w2*...*w7)
 P(s) = P(w1,w2,w3....w8) = p(w1) * p(w2|w1) * p(w3|w2)...*p(w8|w7)
 ```
 
-​       至于每个概率是多少，就需要训练的过程学习了，一般训练是通过通篇解析各种小说文本等，学习各种组合，校准每种组合出现的概率。针对我们的句子，一套学习成功的2-grams带入检测的结果，最后可能会发现这个句子虽然差不多每个配对都表现不错，但是其中的一对 p(computer|eat)概率太低了（computer几乎未曾出现在eat之后过，这在小说里也是常态），因为是乘法关系，所以显著拉低了整个句子的准确性，这样最终给出了不合法的评判。
+​       至于每个概率是多少，就需要训练的过程学习了，一般训练是通过通篇解析各种小说文本等，学习各种组合，校准每种组合出现的概率。针对我们的句子，一套学习成功的2-grams带入检测的结果，最后可能会发现这个句子虽然差不多每个配对都表现不错，但是其中的一对 p(computer|eat)概率太低了（在训练集里面computer几乎未曾出现在eat之后过），因为是乘法关系，所以显著拉低了整个句子的准确性，这样最终给出了不合法的评判。
 
-​	2-grams是最常用的组合，当然也可以扩展到3-grams，4-grams或者更多，不过，就如文中提到的，对于一个总词数是V的词表，N-grams对应得组合数量是V^N，如果是泛用性的词库，例如搜狗的联想搜索，其中可能涉及到10000+的词，那10000^2 到10000^3的体量增加就不是所有用户能承受的了（用户想要脱机实现联想，就需要把这个概率表储存在本地，还需要一个足够大的内存加载，搜索这些词库）。不过搜狗现在其实是同时支持了云端联想和本地联想的，在联网的过程中打字，联想能力其实要更强一些。况且为了训练出绝大部分这种三连词的组合，也需要更多地训练集。而且，N-grams局限于N也无法解决距离比较远的线索问题。
+​	2-grams是最常用的组合，当然也可以扩展到3-grams，4-grams或者更多，不过，就如文中提到的，对于一个总词数是V的词表，N-grams对应得组合数量是V^N，如果是泛用性的词库，例如搜狗的联想搜索，其中可能涉及到10000+的词，那10000^2 到10000^3的体量增加就不是所有用户能承受的了（用户想要脱机实现联想，就需要把这个10000^3个组合，每个组合的概率表储存在本地，他还需要一个足够大的内存加载，搜索这些词库）。不过搜狗现在其实是同时支持了云端联想和本地联想的，在联网的过程中打字，联想能力其实要更强一些（那个小云彩就是在联网搜索词库）。此外为了训练出绝大部分这种三连词的组合，也需要更多地训练集和更长的训练过程。而且，N-grams局限于N也无法解决距离比较远的线索问题。
 
-​	RNN的出现就是为了解决N-gram等其他自然语言处理的经典机器解决不了的这些高级抽象问题的。需要说明，虽然在文中作者对于N-grams抱有一定程度上的贬低，不过（在落后的年代），N-grams是一个被认为普遍有效的方法，解决过很多如word的自动改错，自动联想等等。对于N-grams来说，表征可以理解成词对出现的概率，或者词对之间的距离（apple和orange距离eat近，Moon和April距离eat远）。而对于神经网络来说，这个表征则是高级神经元对于语义的抽象，且他被证实在处理一些复杂语言问题（例如翻译等）上有着更明显的优势。
+​	RNN的出现就是为了解决N-gram等其他自然语言处理的经典机器解决不了的这些高级抽象问题的。需要说明，虽然在文中作者对于N-grams抱有一定程度上的贬低，不过（在落后的年代），N-grams是一个被认为普遍有效的方法，解决过很多如微软Word的自动改错，自动联想等等。对于N-grams来说，表征可以理解成词对出现的概率，或者词对之间的距离（apple和orange距离eat近，Moon和April距离eat远）。而对于神经网络来说，这个表征则是高级神经元对于语义的抽象，且他被证实在处理一些复杂语言问题（例如翻译等）上有着更明显的优势。
 
 #### 段落7：Recurrent neural networks（循环神经网络）
 
 ​	解决连续的数据，就需要RNN网络。因为RNN的基础网络有诸多问题，而LSTM（一种RNN网络的变体）又被发现具有广泛的适应性，所以现在谈到RNN网络，基本上都是在指LSTM了。
 
-​	这里在继续介绍文章内容之前，先做一个什么情况该用什么网络的总结，因为到此为止我们已经介绍过全部deep-learning在的supervised环境下的应用了。
+​	因为到此为止我们已经介绍过全部deep-learning在的supervised环境下的应用。这里在继续介绍文章内容之前，先做一个什么情况该用什么网络的总结。以避免不必要的混淆。
 
 | 数据类型             | 例                                                           | 模型最优解                 | 对比经典机器学习                              |
 | -------------------- | ------------------------------------------------------------ | -------------------------- | --------------------------------------------- |
@@ -272,7 +272,9 @@ P(s) = P(w1,w2,w3....w8) = p(w1) * p(w2|w1) * p(w3|w2)...*p(w8|w7)
 
 ### 总结
 
-​	以下几条请作为重要结论保留，至于其中原理部分看个大概即可，因为本质上我们属于软件的应用方，不站在开发者的一端，最终我们做的工作是，用成熟的deep-learning在未知的领域（人类社会文化认知）找到了具有启发性的结果（期望），并且揭示了使用深度学习分析fMRI等神经图像所能带来的突破（期望）。至于如何使用成熟的deep-learning工具，就是反复的代码，调试，验证，继续代码的循环，在google和python的协助下，是一个不算简单但是可以完成的任务。
+​	这篇综述15年发布，迄今的引用已经1W还多，总的来说是一篇逻辑清晰，内容丰富，尽可能避免了DeepLearning中晦涩难懂的公式，而是强调了其生动有趣且功能强大的应用方面，并且恰到好处的指明了每部分的核心思想的综述类文章。文中也洋溢着Hinton对于由于自己大胆革新所带来的成功的骄傲情感，以及对DL的光明未来的希望。我本来准备写一个简化的版本，但是受到他的感染，自己写起来也写了好多。至于其中原理部分，其实看个大概即可，因为本质上我们属于软件的应用方，不站在开发者的一端，最终我们做的工作是，用成熟的deep-learning在未知的领域（人类社会文化认知）找到了具有启发性的结果（期望），并且揭示了使用深度学习分析fMRI等神经图像所能带来的突破（期望）。至于如何使用成熟的deep-learning工具，就是反复的代码，调试，验证，继续代码的循环，而在google和python的协助下，这已经从无法完成，变成是一个不算简单但是可以逐步完成优化的任务了。
+
+​	只是，以下几条请作为重要结论保留，
 
 1. **深度学习（神经网络模型）最大的特点在于自动抽象**
 2. **因此深度学习更适用于抽象表征的数据**
@@ -283,37 +285,69 @@ P(s) = P(w1,w2,w3....w8) = p(w1) * p(w2|w1) * p(w3|w2)...*p(w8|w7)
 
 ​	还有几件有趣的事，
 
-​	第一，吴恩达现在在Coursara上又开了一门叫做deeplearning.ai的课程，和他的machine learning一样，属于所有同类里面讲的最清楚的一个人了。关于吴恩达其人，在中国属于最有名的几个研究机器学习的人物了，头衔也包括斯坦福的教授，googleAI的领导人（曾经，现在领导人是Hinton了），百度AI的领导人，Coursara的创始人等等。实际上，仅从科研贡献上，吴恩达是难以与文中提到的几位教授并肩的，无论是经典机器学习领域，还是新进的深度学习领域，他都没有发表过很具影响力的文章。在google的几年也没有突破进展，最终被Hinton替位。但是他的讲课能力确实很强，对于机器学习的推广起到了极为重要的作用（我自己的Machine Learning入门）也是通过他的课程，而且开创了惠及无数学子与希望提升自己技术技能的工薪族的Coursara，并且为人也比较正直（曾经亲自揭发了百度AI的一个参赛的造假项目），基于以上几点，还是十分值得尊敬的。这个课，连同他的经典机器学习课程，都推荐一下。
+​	第一，吴恩达现在在Coursara上又开了一门叫做deeplearning.ai的课程，和他的machine learning一样，属于所有同类里面讲的最清楚的一个人了。关于吴恩达其人，在中国属于最有名的几个研究机器学习的人物，头衔也包括斯坦福的教授，googleAI的领导人（曾经，现在领导人是Hinton了），百度AI的领导人，Coursara的创始人等等。实际上，仅从科研贡献上，吴恩达是难以与文中提到的几位教授并肩的，无论是经典机器学习领域，还是新进的深度学习领域，他都没有发表过很具影响力的文章。在google的几年也没有突破进展，最终被Hinton替位。但是他的讲课能力确实很强，对于机器学习的推广起到了极为重要的作用（我自己的Machine Learning入门）也是通过他的课程，而且开创了惠及无数学子与希望提升自己技术技能的工薪族的Coursara，并且为人也比较正直（曾经亲自揭发了百度AI的一个参赛的造假项目），基于以上几点，还是十分值得尊敬的。这个课，连同他的经典机器学习课程，都推荐一下。
 
-​	第二， 机器学习现在基本上都是给予python实现了，python属于非编译语言，语法简洁，对环境没有复杂的要求（一个3.6的编译器只要几M，对比JAVA编译之前要装JDK，运行时候还要JRE，加起来就1G还多）， 而且在github大家共同的努力下产生了成熟的应对各种复杂需求的包体（python上面甚至有专门处理fMRI原始数据的包体），并且可以很好的兼容其他语言（复杂的功能往往是在c++开发的基础上封装了一个python的调用外壳）或者工作环境（linux/windows下绝大部分python包是通用的）。可以预计在今后很长时间python也许都会是新功能的主流语言。我们之后的代码开也全部由python实现。说起来，这篇解析中的很多引用部分，虽然是原文引用，但是没有出现诡异的换行（如果你直接粘贴pdf就会有诡异的换行，毕竟他是两栏写的），或者不兼容字符的情况，也是用python写了一个小脚本实现的。
+​	第二， 机器学习现在基本上都是python实现了。python属于非编译语言，语法简洁，对环境没有复杂的要求（一个3.6的编译器只要几M，对比JAVA编译之前要装JDK，运行时候还要JRE，加起来就1G还多）， 而且在github大家共同的努力下产生了成熟的应对各种复杂需求的包体（python上面甚至有专门处理fMRI原始数据的包体），并且可以很好的兼容其他语言（复杂的功能往往是在c++开发的基础上封装了一个python的调用外壳）或者工作环境（linux/windows下绝大部分python包是通用的）。可以预计在今后很长时间python也许都会是新功能的主流语言。我们之后的代码开也全部由python实现。说起来，这篇解析中的很多引用部分，虽然是原文引用，但是没有出现诡异的换行（如果你直接粘贴pdf就会有诡异的换行，毕竟他是两栏写的），或者不兼容字符的情况，也是用python写了一个小脚本实现的。
 
 ​	
 
 ```python
 # MoonKuma
 def format_string_para(file_name):
+    MAX_WORDS_LINE = 60 # 一行最多多少个字
+    count = 0
     long_str = ''
     with open(file_name,'r',encoding='utf-8') as file_op:
         for line in file_op.read():
             # line = line.strip()
             long_str = long_str+ line
-    print(long_str.replace('\n',' '))
-    return long_str
+    long_str = long_str.replace('\n',' ')
+    words_array = long_str.split(' ')
+    return_str = ''
+    for word in words_array:
+        count = count + len(word) + 1
+        return_str = return_str + word + ' '
+        if count > MAX_WORDS_LINE:
+            return_str += '\n'
+            count = 0
+    print(return_str)
+    return return_str
 
 # test
 format_string_para('test.txt')
 
-#result should be like
+#This is what input like
 '''
-When trained to predict the next word in a news story, for example, the learned word 
-vectors for Tuesday and Wednesday are very similar, as are the word vectors for Sweden 
-and Norway. Such representations are called distributed representations because their 
-elements (the features) are not mutually exclusive and their many configurations 
+When trained to predict the next word in a news story,
+for example, the learned word
+vectors for Tuesday and Wednesday are very similar, as
+are the word vectors for Sweden
+and Norway.
+ Such
+  representations are called distributed representations because their
+elements (the features) are not mutually
+exclusive and their many configurations
 correspond to the variations seen in the observed data. These word vectors are composed
-of learned features that were not determined ahead of time by experts, but 
+of learned features
+that were not determined ahead of time by experts, but
 automatically discovered by the neural network. Vector representations of words learned
 from text are now very widely used in natural language applications.
 '''
+
+
+#result should be like
+'''
+When trained to predict the next word in a news story, for example, 
+the learned word vectors for Tuesday and Wednesday are very similar, 
+as are the word vectors for Sweden and Norway. Such representations 
+are called distributed representations because their elements 
+(the features) are not mutually exclusive and their many configurations 
+correspond to the variations seen in the observed data. These 
+word vectors are composed of learned features that were not determined 
+ahead of time by experts, but automatically discovered by the 
+neural network. Vector representations of words learned from 
+text are now very widely used in natural language applications.  
+'''
 ```
 
-​	第三，deepLearning本质上是一套想法，不是一种计算机的编码方式，但是因为deepLearning的内部运算相对复杂，特别牵扯到多线程，CPU,GPU交互等内容，尽管其全部逻辑是开放的，但是在应用层上个体或者小公司几乎无法完成独立开发。而作为领跑全球DeepLearning的Google公司，在发售自己优质的服务的同时，也会不间断的开发的放出一部分封装好的用来计算deepLearning的程序包，我们常说的TensorFlow就是其中之一，也是为普罗大众接受和应用最多的一个。在tf的基础上，为了方便新手学习，google还封装了如Karas，Eager等进一步整合的包，实现了只用几行代码就完成一个简单的模型的训练的效果。封装的API越高级，使用越安全方便，但是代价是受到的束缚也就越多。我们此次的开发是在tf层实现的，最大程度利用google的TensorFlow，同时并没有使用进一步封装的API以保留一定的自由空间，如此以在中间调整模型，参数，并为不同的层造影等。
+​	第三，deepLearning本质上是一套想法，不是一种计算机的编码方式，但是因为deepLearning的内部运算相对复杂，特别牵扯到多线程，CPU,GPU交互等内容，导致尽管其全部逻辑是开放的，但是在应用层上个体或者小公司几乎无法完成独立开发。而作为领跑全球DeepLearning的Google公司，在发售自己优质的服务的同时，也会不间断的开发的放出一部分封装好的用来计算deepLearning的程序包，我们常说的TensorFlow就是其中之一，也是为普罗大众接受和应用最多的一个。在tf的基础上，为了方便新手学习，google还封装了如Karas，Eager等进一步整合的包，实现了只用几行代码就完成一个简单的模型的训练的效果。封装的API越高级，使用越安全方便，但是代价是受到的束缚也就越多。我们此次的开发是在tf层实现的，最大程度利用google的TensorFlow，同时并没有使用进一步封装的API以保留一定的自由空间，如此以在中间调整模型，参数，并为不同的层造影等。
