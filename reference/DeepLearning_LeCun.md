@@ -108,7 +108,7 @@ language translation16,17.
 
 ​	换言之，一个最简单的神经网络模型，或者说没有中间层的模型，就是简单的线性回归模型。而神经网络结构的复杂性和其独特的抽象能力，不是由于这些底层的优化器或者误差函数的改进实现的，而是通过网络这种想法实现的（参考下图，即原文的Figure1，c）。图中，神经元j的信号值，是由其下三个输入神经元以及他们对应的一组参数决定，所以最终J=w1·input(1) + wij·input(i) + w3*input(3) + b， 同理适用于J的附近兄弟3个神经元，以及j向上的H2层，一直到output层，此时output的结果已经是input经过三次抽象与优化得到得了，在比较这个output和最终监督值y的时候，output就可以捕获大量抽象的信息，而不简单只是各个输入的增加或者减少了。
 
-​	![image] (tf_fmri_meg/reference/deep_learning/images/deep_learning_f1.png)
+​	![image1] (https://github.com/MoonKuma/tf_fmri_meg/blob/master/reference/deep_learning/images/deep_learning_f1.png)
 
 ​	关于第二部分，比较deep-learning和其他线性的或者非线性和‘shallow classifier’之间的差别。文中举出了一个非常生动的萨摩耶-狼的例子，因为线性classifier会无差别的捕获不同x之间的差异，所以结果是，对于任何线性classifier，一直面向画面左侧的萨摩耶，和一只面向画面右侧的萨摩耶之间的差别，总是远大于他和一只面向左侧的狼的差别的。而即便是对于非线性的简单classifier（例如SVM），在实现区分抽象差异的功能的时候，依然会受限于有限的泛化能力，如利用高斯核函数Gaussian Kernal的非线性分类器只会把属于某类的Y的X在其对应向量面附近的点包含在自己的类当中（高斯指的是用正态分布的方式决定其他点与自己的相似度，距离远的点会被迅速排除出当前类中）。也因此，在使用的时候，对于应用者的经验（应用者能否准确的提取出样本与测试集中的有用的要素，应用者能否判断什么程度的泛化是合适的）就有了很高的要求。也就是在此处，作者再一次强调了deep-learning无需过多人为干预即可实现抽象提取的特性。
 
