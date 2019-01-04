@@ -147,7 +147,9 @@ and surrounding objects.
 
 ```python
 '''
-In particular, it was commonly thought that simple gradient descent would get trapped in poor local minima — weight configurations for which no small change would reduce the average error. In practice, poor local minima are rarely a problem with large networks.
+In particular, it was commonly thought that simple gradient descent would get trapped 
+in poor local minima — weight configurations for which no small change would reduce the
+average error. In practice, poor local minima are rarely a problem with large networks.
 '''
 ```
 
@@ -161,7 +163,10 @@ In particular, it was commonly thought that simple gradient descent would get tr
 
 ```python
 '''
-The convolutional and pooling layers in ConvNets are directly inspired by the classic notions of simple cells and complex cells in visual neuroscience43, and the overall architecture is reminiscent of the LGN–V1–V2–V4–IT hierarchy in the visual cortex ventral pathway44.
+The convolutional and pooling layers in ConvNets are directly inspired by the classic
+notions of simple cells and complex cells in visual neuroscience43, and the overall 
+architecture is reminiscent of the LGN–V1–V2–V4–IT hierarchy in the visual cortex 
+ventral pathway44.
 '''
 ```
 
