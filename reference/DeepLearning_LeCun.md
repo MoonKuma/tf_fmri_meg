@@ -199,7 +199,14 @@ The convolutional and pooling layers in ConvNets are directly inspired by the cl
 
 ```python
 '''
-When trained to predict the next word in a news story, for example, the learned word vectors for Tuesday and Wednesday are very similar, as are the word vectors for Sweden and Norway. Such representations are called distributed representations because their elements (the features) are not mutually exclusive and their many configurations correspond to the variations seen in the observed data. These word vectors are composed of learned features that were not determined ahead of time by experts, but automatically discovered by the neural network. Vector representations of words learned from text are now very widely used in natural language applications.
+When trained to predict the next word in a news story, for example, the learned word
+vectors for Tuesday and Wednesday are very similar, as are the word vectors for Sweden 
+and Norway. Such representations are called distributed representations because their
+elements (the features) are not mutually exclusive and their many configurations 
+correspond to the variations seen in the observed data. These word vectors are composed 
+of learned features that were not determined ahead of time by experts, but 
+automatically discovered by the neural network. Vector representations of words learned 
+from text are now very widely used in natural language applications.
 '''
 ```
 
@@ -293,7 +300,14 @@ format_string_para('test.txt')
 
 #result should be like
 '''
-When trained to predict the next word in a news story, for example, the learned word vectors for Tuesday and Wednesday are very similar, as are the word vectors for Sweden and Norway. Such representations are called distributed representations because their elements (the features) are not mutually exclusive and their many configurations correspond to the variations seen in the observed data. These word vectors are composed of learned features that were not determined ahead of time by experts, but automatically discovered by the neural network. Vector representations of words learned from text are now very widely used in natural language applications.
+When trained to predict the next word in a news story, for example, the learned word 
+vectors for Tuesday and Wednesday are very similar, as are the word vectors for Sweden 
+and Norway. Such representations are called distributed representations because their 
+elements (the features) are not mutually exclusive and their many configurations 
+correspond to the variations seen in the observed data. These word vectors are composed
+of learned features that were not determined ahead of time by experts, but 
+automatically discovered by the neural network. Vector representations of words learned
+from text are now very widely used in natural language applications.
 '''
 ```
 
