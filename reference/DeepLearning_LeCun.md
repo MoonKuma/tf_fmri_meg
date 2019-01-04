@@ -137,7 +137,7 @@ and surrounding objects.
 
 ​	这一段落旨在说明，在网络结构中，如果在任意两个神经元之间都是使用简单的线性模型链接，那么在优化网落各部分的参数时，就可以利用到一个名为误差反向传播（back propagation of error）的性质。而这个性质也是保证网络结构可以被重复训练优化的基本。
 
-​	![1546342275003](D:\Data\Works\TF_data_analyse\reference\%5CUsers%5C12440%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1546342275003.png)
+​	![image2](https://github.com/MoonKuma/tf_fmri_meg/blob/master/reference/deep_learning/images/deep_learning_f2.png)
 
 ​	上图（文中图1b）是一个最简单的所谓反向传播的例子，这个例子里面包含输入与输出只有3层神经元，每层一个，z相当于是预测值，z值要向数据中真实给出的每个样本的监督值靠拢，x值相当于输入值，即输入模型的每个变量x，虽然不知道z对于y的系数，但是z对于y的系数（z的偏导/y的偏导），可以由z关于x的系数表示出来。
 
@@ -167,7 +167,7 @@ The convolutional and pooling layers in ConvNets are directly inspired by the cl
 
 ​	图2虽然给出了一个卷积的例子，但是在Hinton参加ImageNet的获奖的模型说明文章里面，对于感受野有更形象的描写，具体参看下图（ImageNet Classification with Deep Convolutional，Figure 3），这种中间暗两边亮的图形，或者监控不同色彩的图形，和对于感受野最初的研究发表的图是非常相似。
 
-![1546346329137](D:\Data\Works\TF_data_analyse\reference\%5CUsers%5C12440%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1546346329137.png)
+![image3](https://github.com/MoonKuma/tf_fmri_meg/blob/master/reference/deep_learning/images/deep_learning_f3.png)
 
 
 
@@ -175,7 +175,7 @@ The convolutional and pooling layers in ConvNets are directly inspired by the cl
 
 ​	因为卷积的加入，在模型上卷积模型也会看上去更加复杂一些，下图是Hinton在上面文章中提到的自己的模型：
 
-![1546531216389](D:\Data\Works\TF_data_analyse\reference\%5CUsers%5C12440%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1546531216389.png)
+![image7](https://github.com/MoonKuma/tf_fmri_meg/blob/master/reference/deep_learning/images/deep_learning_f7.png)
 
 ​	需要注意，卷积神经网络，只有在处理图像相关，或类图像问题上才能体现出其优越性来。且卷积神经网络不单单适用于2D图像，对于3D的图像，也有封装好的计算方法（这种3D的处理常常被用在视频解析，2D的图像+时间轴构成了3D，且相邻的时间，相似的图像点之间依然具有可被卷积的特性：local connection/shared weight等等。而在颜色有意义的2D图像识别中，也是需要3D的卷积核的，因为此时平面图本身就是3D的，每一个点都包含了一组RGB三个值，224x224的图像其实的数学展示是224x224x3），**我们这次要做MGE/fMRI的学习，也是要用到这个3D的卷积核**。如果仔细观察上面Hinton的模型，你会发现他也是在用3D卷积核。
 
@@ -244,15 +244,15 @@ P(s) = P(w1,w2,w3....w8) = p(w1) * p(w2|w1) * p(w3|w2)...*p(w8|w7)
 
 ​	RNN和经典网络或者CNN网络有着本质的不同，他并不是以从下到上逐层抽象，提取要素的方式实现的，而是以从时间的过去到未来，每走一步都记录和抽象一部分之前的信息实现的。文中的图5是一个最简单的RNN模型的样子，实际上大家已经不再使用这种基础RNN模型了，而是用一个更复杂的LSTM模型处理。不过LSTM的核心原理与这个RNN相同，所以这里先对这个基础RNN做一说明。
 
-![1546529783844](D:\Data\Works\TF_data_analyse\reference\%5CUsers%5C12440%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1546529783844.png)
+![image5](https://github.com/MoonKuma/tf_fmri_meg/blob/master/reference/deep_learning/images/deep_learning_f5.png)
 
 ​	举个例子，比如，训练用的句子是“I want to eat pizza today.", 模型里面是三个参数（U,V,W）和一个记忆单元（中间那个小圆圈s，一般称为cell），第一进入模型的词(Xt-1)是I，此时的记忆单元是空的，经过(U,V)一通运算，得出了第一个Output（Ot-1）是like（当然这时候模型还没训练好呢，所以这个词基本上是随机的），然后第二个词输入了，是want，此时计算Ot-2的时候不仅会考虑 U对于输入词的运算，还要带上一部分来自上一步的计算（也就是f(W,St-1)）,最终预测Ot-2是sleep，如此直到句子读完，终止与句号，此时得到一套预测句子可能是"I like sleep for bed now"，再把这个句子和原始的输入句子作比较（然后发现基本全错了），之后再用之前所说的，反向传播的方式逐层优化，即想要让最后一个词在输入时pizza的时候出现today，需要什么样的(UVW)，如果要倒数第二个是pizza，又要对UVW进行怎样的调整，如此一致调整到第一次输入的时候，就算是一个训练结束了。
 
 ​	基本原理是上面的原理，当然实际操作的时候，会有一些更复杂的操作，例如图中只有一层细胞涉及到学习，但是这样能积累的知识是有限的，实际上会实际多层多个细胞，以充分提取不同细节。下图来自参考文献（Generating Text with Recurrent Neural Networks，图1）
 
-​	![1546530720153](D:\Data\Works\TF_data_analyse\reference\%5CUsers%5C12440%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1546530720153.png) 
+​	 ![image6](https://github.com/MoonKuma/tf_fmri_meg/blob/master/reference/deep_learning/images/deep_learning_f6.png)
 
-​	当然这还是一个未经过LSTM修饰的RNN模型，实际上经过LSTM之后，模型会变得更加复杂（具体有多复杂，可以看这篇文章Long short-term memory里面的插图...然后就会默默关掉文章感受岁月静好的）。不过LSTM却有效的通过在训练循环中加入遗忘机制，使得使用模型处理长句子时，不会因为经过的词太多模型太复杂而导致无法计算的情况。出去LSTM外，文中还介绍了一种名为Neural Turing Machine的训练模型，不过现在一说到自然语言处理，首选项依然是LSTM，好在LSTM也有封装好的工具可以调用，不用自己纠结其中复杂的遗忘机制，如此也算是一大便利了。对于LSTM的详情（我着实看不懂...），我们就不进一步介绍了。
+​	当然这还是一个未经过LSTM修饰的RNN模型，实际上经过LSTM之后，模型会变得更加复杂（具体有多复杂，可以看这篇文章Long short-term memory里面的插图...然后就会默默关掉文章感受岁月静好的）。不过LSTM却有效的通过在训练循环中加入遗忘机制，使得使用模型处理长句子时，不会因为经过的词太多模型太复杂而导致无法计算的情况。出去LSTM外，文中还介绍了一种名为Neural Turing Machine的训练模型，不过现在一说到自然语言处理，首选项依然是LSTM，好在LSTM也有封装好的工具可以调用，不用自己纠结其中复杂的遗忘机制，如此也算是一大便利了。对于LSTM的详情，我们就不进一步介绍了。
 
 #### 段落8：The future of deep learning（展望）
 
