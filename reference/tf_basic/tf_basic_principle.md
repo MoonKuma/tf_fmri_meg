@@ -130,13 +130,17 @@ A full version of derivatives with samples
 
 (with these two, I can write a full connection simple neural network without the help of tensor-flow)
 
+Here is a better structural image
+
+  ![](D:\Data\PythonProjects\tf_fmri_meg\reference\tf_basic\FireShot Capture 18 - Building blocks of deep neural network_ - https___www.coursera.org_learn_neu.png)
+
 6. Why we need to initialize weight randomly
 
-Then the net work will compute out a bunch of 0's in forward propagation;
+**Then the net work will compute out a bunch of 0's in forward propagation if all ws are initialized as 0;**
 
-Then they will update to the same values in backward propagation
+**Then they will update to the same values in backward propagation**
 
-As a result, all units become identical with computing same functions
+**As a result, all units become identical with computing same functions**
 
 typical initial:
 
@@ -144,3 +148,69 @@ w = np.random.randn((n,n))*0.01 # leave this small to make it easy to compute gr
 
 b = np.zeros((n,1))
 
+
+
+7 .  Matrix diamention check
+
+| Notation | Meaning                                | Diamention   |
+| -------- | -------------------------------------- | ------------ |
+| m        | number of samples                      | real number  |
+| l        | layer l                                | real number  |
+| n_l      | number of nodes in layer l             | real number  |
+| W_l      | Weight matrix in layer l               | (n_l, n_l-1) |
+| B_l      | Bias matrix in layer I                 | (n_l, 1)     |
+| dW_l     | derivative of Weight matrix in layer l | (n_l, n_l-1) |
+| dB_l     | derivative of Bias matrix in layer I   | (n_l, 1)     |
+| Z_l      | Z matrix in layer l                    | (n_l, m)     |
+| A_l      | A matrix in layer l                    | (n_l, m)     |
+| dZ_l     | derivative of Z matrix in layer l      | (n_l, m)     |
+| dZ_l     | derivative of A matrix in layer l      | (n_l, m)     |
+
+Some rules:
+
+- W, B are paramaters, they are not relavent with sample number m
+
+- A, Z are status, they are relavent with sample number m, while m always become their column number
+
+- derivative is an element-wise computation, which should have the same dimention with its original matrix
+
+- A_0 is the input X; A_last is output, an prediction of Y
+
+
+
+8. Train, development and test data sets
+
+   ![](D:\Data\PythonProjects\tf_fmri_meg\reference\tf_basic\FireShot Capture 21 - Train _ Dev _ Test sets - deeplearning_ - https___www.coursera.org_learn_dee.png)
+
+   Development data set is used in modify model
+
+   Test set gives an unbias evaluation of performance ( which may not always be necessary)
+
+9. Bias/variance 
+
+   **Bias :** is casued by **under-fitting**, or say bad model, as shown by **high train error**
+
+   **Variance**: is caused by **lack of generalization**, or say over-fitting, as shown by **high dev error**
+
+   A bad built model can be both high in Bias and Variance
+
+   ![](D:\Data\PythonProjects\tf_fmri_meg\reference\tf_basic\FireShot Capture 22 - Bias _ Variance - deeplearning.ai I Co_ - https___www.coursera.org_learn_dee.png)
+
+   The standard bias/variance is based on some other reference model (like human eyes)
+
+   | Problem       | Performance         | Reason        | How to improve                  |
+   | ------------- | ------------------- | ------------- | ------------------------------- |
+   | High bias     | high training error | under-fitting | Bigger network, longer training |
+   | High variance | high dev error      | over-fitting  | More data, regularzation        |
+
+   The other advantage of deep learning campared to traditional ones is that it **seldom suffers from the trade-off of bias and variance, so long as regularzation is used**.
+
+10.  Regularzation
+
+    - Weight decay:  adding a punishment on cost function for uncessary usage of weight
+
+    ![](D:\Data\PythonProjects\tf_fmri_meg\reference\tf_basic\FireShot Capture 25 - Regularization - deeplearning.ai I Cou_ - https___www.coursera.org_learn_dee.png)
+
+    New cost func will supress weight near 0, where the activation func works like linear func(when multiple  nodes will be treated as one large linear layer)
+
+    - Drop out
