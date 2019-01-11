@@ -207,10 +207,100 @@ Some rules:
 
 10.  Regularzation
 
-    - Weight decay:  adding a punishment on cost function for uncessary usage of weight
+- Weight decay:  adding a punishment on cost function for uncessary usage of weight
 
-    ![](D:\Data\PythonProjects\tf_fmri_meg\reference\tf_basic\FireShot Capture 25 - Regularization - deeplearning.ai I Cou_ - https___www.coursera.org_learn_dee.png)
+![](D:\Data\PythonProjects\tf_fmri_meg\reference\tf_basic\FireShot Capture 25 - Regularization - deeplearning.ai I Cou_ - https___www.coursera.org_learn_dee.png)
 
-    New cost func will supress weight near 0, where the activation func works like linear func(when multiple  nodes will be treated as one large linear layer)
+New cost func will supress weight near 0, where the activation func works like linear func(when multiple  nodes will be treated as one large linear layer)
 
-    - Drop out
+- Drop out ( inverted dropout)
+
+```python
+# drop out by setting keep-prob
+keep_prob = 0.8
+d3 = np.random.rand(a3.shape[0], a3.shape[1])
+a3 = np.multiply(a3, d3)
+a3 /= keep_prob  # this is used to make sure drop out won't influence the expected value 
+```
+
+Drop out works like L2-restriction, by shrinking the weight.
+
+Also, do not use drop out in test time.
+
+Regularzation could usually be helpful in **Computer Vision** where data could easyily be not enough
+
+- Other techniques
+
+1. Data augmentation: flip, zoom,distortation pics to make more data in the cheap way (not as good as brand new one but still helpful: for the flip cat is still a cat)
+2. Early stop : not recommened somehow
+
+
+
+11. Why normoalize inputs
+
+![](D:\Data\PythonProjects\tf_fmri_meg\reference\tf_basic\FireShot Capture 28 - Normalizing inputs - deeplearning.ai I_ - https___www.coursera.org_learn_dee.png)
+
+Feature matrix would look more symmetric if input data is normalized(larger learning rate could be applied , while learn faster at the same time)
+
+Caution test set should use the same average/strandard error as train set for normalize
+
+
+
+12. Vanishing/exploding gradients, and weight initialization of deep networks
+
+-  With very deep network, after times of computing activation with small/large weight, the A_output could be extremely large(not computable) or small(learn so slow)
+
+![](D:\Data\PythonProjects\tf_fmri_meg\reference\tf_basic\FireShot Capture 29 - Vanishing _ Exploding gradients - deep_ - https___www.coursera.org_learn_dee.png)
+
+There is a way of initialization weight to control such problem, through supressing the size of weight according to how many of them are compute and sumed up together
+
+![](D:\Data\PythonProjects\tf_fmri_meg\reference\tf_basic\FireShot Capture 30 - Weight Initialization for Deep Network_ - https___www.coursera.org_learn_dee.png)
+
+```
+W_l = np.random.randn(n_l, n_l-1) * np.sqrt(2/n_l-1) # this is for ReLU 
+```
+
+
+
+13. Gradient checking
+
+Gradient check is used to debug whether the gradient computation is correct for parameters in each layers
+
+![](D:\Data\PythonProjects\tf_fmri_meg\reference\tf_basic\FireShot Capture 31 - Gradient checking - deeplearning.ai I _ - https___www.coursera.org_learn_dee.png)
+
+For practice, remember regularization in gradient checking , and gradient checking doesn't work with drop-out, and also may work better after some batches of training
+
+
+
+14. Mini batch size
+
+![](D:\Data\PythonProjects\tf_fmri_meg\reference\tf_basic\FireShot Capture 32 - Understanding mini-batch gradient desc_ - https___www.coursera.org_learn_dee.png)
+
+Stachastic (one sample at a time. or size=1):  lose the speed up from vatorization
+
+Total batch (size = m), take too long per iteration (but this time the cost func won't oscillate
+
+
+
+15. Gradient descent with momentum(exponentially weighted averages)
+
+![](D:\Data\PythonProjects\tf_fmri_meg\reference\tf_basic\FireShot Capture 33 - Gradient descent with momentum - deepl_ - https___www.coursera.org_learn_dee.png)
+
+Update parameters with exponentially weight averages
+
+```
+# Hyperparameters alpha: learning rate, beta as contorlling the number of terms nearby used in average 
+
+v_dw = beta * v_dw + (1-beta)*dw
+v_db = beta * v_db + (1-beta)*db
+w = w - alpha * v_dw
+b = b - alpha * v_db
+```
+
+In example in the pics above, **we need a slow learning rate vertically but a fast learning rate horizontally**, yet one single learning rate can't accomplished this, which ends at either too large (over-shooting as the purple), or not enough (take too many osciliations as the blue). 
+
+Using exponentially weight averages to update weight and bias instead of the original derivative will help to supress the osciliation vertically( after averaging vetors aiming at opposite directions) but enhance the speed horizontally. Therefore it could help in spped up training. 
+
+RMSprop(Root mean square) is a way with similar logic,
+
+  
