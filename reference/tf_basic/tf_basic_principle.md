@@ -301,6 +301,92 @@ In example in the pics above, **we need a slow learning rate vertically but a fa
 
 Using exponentially weight averages to update weight and bias instead of the original derivative will help to supress the osciliation vertically( after averaging vetors aiming at opposite directions) but enhance the speed horizontally. Therefore it could help in spped up training. 
 
-RMSprop(Root mean square) is a way with similar logic,
+RMSprop(Root mean square) is a way with similar logic, with using square root instead
 
-  
+ ![](D:\Data\PythonProjects\tf_fmri_meg\reference\tf_basic\FireShot Capture 34 - RMSprop - deeplearning.ai I Coursera_ - https___www.coursera.org_learn_dee.png)
+
+
+
+16. Adam optimization (putting momentum and RMS together)
+
+![](D:\Data\PythonProjects\tf_fmri_meg\reference\tf_basic\FireShot Capture 35 - Adam optimization algorithm - deeplear_ - https___www.coursera.org_learn_dee.png)
+
+Notes the part in updating w and b, see how momentum and RMS works together
+
+For hyper-parameters:
+
+```python
+'''
+alpha : need to be tuned # (learning rate)
+beta1 : 0.9 # (used in momentum, to compute dw, not ofen tuned)
+beta2 : 0.999 # (used in compute RMS dw**2, not often tumed)
+epsilon : 10^-8 #(used in prevent devided by 0 collapse)
+'''
+```
+
+
+
+17. Learning rate decay
+
+    Useing smaller learning rate in each epochs, so that in minibatch training the optimization will wondering in a rather smaller area (relatively better converging) 
+
+18. Local optima
+
+    In deep learning, its unlikely to get stuck in bad local optima( for there are too many parameters, it's hard for all of them to stop updating at the same time)
+
+    Yet a plateaus can make learning slow
+
+19. Hyperparameters search
+
+    An example on how to search learning rate alpha
+
+    ```python
+    r = -4 * np.random.rand()
+    alpha = 10 ^ r # randomly choose between 0.0001 and 1 in log scale
+    ```
+
+20. Batch normalization
+
+    Since normalize X could benefit the training ,then normalize each layers input (Z_l or A_l) could works the same
+
+    ![](D:\Data\PythonProjects\tf_fmri_meg\reference\tf_basic\FireShot Capture 36 - Normalizing activations in a network I_ - https___www.coursera.org_learn_dee.png)
+
+    **Note that by normalize it doesn't mean the distribution of Z_l has to be mean 0 and std 1**, for normalization will help training but such identical distribution sometimes won't (like cause the non-linear activation fucntion works linearly) 
+
+    That's why learnable gama and beta is used as above. So that the network will learn automatically where such normal distribution shoud locate.
+
+    Also, because of the introduce of normalize, the original parameter b (bias) no longer needed/works. ( Since any constant will be normalized after normalization(subtracting out mean)) 
+
+    Besides making the optimization easier, **batch norm also helps make the deeper layers more robust through reducing covariate shift** 
+
+    [^covariate shift]: the same distribution in different scales force retraining the network,. For example if we train on black cats but test on all cats, the net work will behave worse for distribution shift. Here in deep neural network, such case happens like the weight in first several layers will cause the later layers receive input in same distribution but different scale(mean/std error)
+
+    **In mini batch training and testing, the mean and std is not computed independently at each batches, but estimated through tracking through batches with exponentially weighted average**
+
+21. Softmax activation
+
+    Softmax enhance sigmoid from classifing 2 classes into classifing C classes
+
+    Activation function: 
+
+    ```python
+    # if Z has 2 dimention, this will reduce into sigmoid
+    def compute_softmax(Z):
+    	return np.exp(Z)/np.sum(np.exp(Z))
+    ```
+
+    Loss function:
+
+    ```python
+    # This is the same loss func as sigmoid
+    def loss_softmax(A, Y):
+    	return -1 * np.sum(Y*np.log(A))
+    ```
+
+    Derivative z_last:
+
+    ```python
+    # Also the same as sigmoid
+    def dz_output_softmax(Y,A):
+    	return A - Y
+    ```
