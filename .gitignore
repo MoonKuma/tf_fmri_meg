@@ -1,0 +1,7 @@
+*.gz
+.idea/
+*.jpg
+*.jpeg
+data_example/fmri_sample/fmri_raw_data/**/*.nii
+
+
