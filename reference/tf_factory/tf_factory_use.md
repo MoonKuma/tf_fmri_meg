@@ -68,3 +68,54 @@
      - **Parameter sharing**:  a feature detector (i.e. a filter ) that is useful in one part of the image is probably useful in another part of the image
 
      -  **Sparsity of connections** : in each layers, each output value depends only on a small (localized) number of inputs
+
+
+
+7. Classic convolution neural networks
+
+   - LeNet
+
+     ![](D:\Data\PythonProjects\tf_fmri_meg\reference\tf_factory\FireShot Capture 44 - Classic Networks - deeplearning.ai I C_ - https___www.coursera.org_learn_con.png)
+
+   - AlexNet (the red parts were less often used in later work)
+
+     ![](D:\Data\PythonProjects\tf_fmri_meg\reference\tf_factory\FireShot Capture 45 - Classic Networks - deeplearning.ai I C_ - https___www.coursera.org_learn_con.png)
+
+   - VGG-16 (16 is for 16 layers)
+
+     ![](D:\Data\PythonProjects\tf_fmri_meg\reference\tf_factory\FireShot Capture 46 - Classic Networks - deeplearning.ai I C_ - https___www.coursera.org_learn_con.png)
+
+
+
+8. The inception neural network and its key parts
+
+   - Residual block
+
+     ![](D:\Data\PythonProjects\tf_fmri_meg\reference\tf_factory\FireShot Capture 47 - ResNets I Coursera_ - https___www.coursera.org_learn_con.png)
+
+     Such residual blocks prevent the network from going worse instead of better when adding additional layers.
+
+   - 1 * 1 convolution
+
+     ![](D:\Data\PythonProjects\tf_fmri_meg\reference\tf_factory\FireShot Capture 48 - Inception Network Motivation - deeplea_ - https___www.coursera.org_learn_con.png)
+
+     1 * 1 convolution is helpful in shrink down the representation like creating a bottleneck, and hence save the computation.
+
+   - Inception module
+
+     ![](D:\Data\PythonProjects\tf_fmri_meg\reference\tf_factory\FireShot Capture 50 - Inception Network I Coursera_ - https___www.coursera.org_learn_con.png)
+
+   - Inception networks
+
+     ![](D:\Data\PythonProjects\tf_fmri_meg\reference\tf_factory\FireShot Capture 51 - Inception Network I Coursera_ - https___www.coursera.org_learn_con.png)
+
+     As stacking up inception modules.
+
+
+   9.  Transfer learning
+
+      ![](D:\Data\PythonProjects\tf_fmri_meg\reference\tf_factory\FireShot Capture 52 - Transfer Learning - deeplearning.ai I _ - https___www.coursera.org_learn_con.png)
+
+   - Download others network and their weights, freeze part of it (make weights in those layers untrainable), and train the rest. 
+   - The number of layers to freeze is dependent on how many data ( also how good the computer) one have
+
