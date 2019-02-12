@@ -114,8 +114,39 @@
 
    9.  Transfer learning
 
-      ![](D:\Data\PythonProjects\tf_fmri_meg\reference\tf_factory\FireShot Capture 52 - Transfer Learning - deeplearning.ai I _ - https___www.coursera.org_learn_con.png)
+  ![](D:\Data\PythonProjects\tf_fmri_meg\reference\tf_factory\FireShot Capture 52 - Transfer Learning - deeplearning.ai I _ - https___www.coursera.org_learn_con.png)
 
    - Download others network and their weights, freeze part of it (make weights in those layers untrainable), and train the rest. 
    - The number of layers to freeze is dependent on how many data ( also how good the computer) one have
 
+10.  On benchmarks and winning competitions
+
+![](D:\Data\PythonProjects\tf_fmri_meg\reference\tf_factory\FireShot Capture 53 - State of Computer Vision - deeplearnin_ - https___www.coursera.org_learn_con.png)
+
+
+
+11. Object detection and localization
+
+    - First build a detection model (like car or not)
+
+    - Then use sliding window techniques ( by sliding the window at a small step each time and detect whether there are a car inside such window) to localize the object
+
+    - Instead of doing the sliding by hand (which cost to much unnecessary computational cost), using a convolutional implementation
+
+      - Turing FC layers into convolutional layers
+
+        ![](D:\Data\PythonProjects\tf_fmri_meg\reference\tf_factory\FireShot Capture 55 - Convolutional Implementation of Slidin_ - https___www.coursera.org_learn_con.png)
+
+      - Using that above as the detection network (14*14 here), and applying it to larger pics
+
+        ![](D:\Data\PythonProjects\tf_fmri_meg\reference\tf_factory\FireShot Capture 56 - Convolutional Implementation of Slidin_ - https___www.coursera.org_learn_con.png)
+
+        The key advantage of convolution implementation is that it saves many similar computation of the same area.
+
+      - From localization to bounding box 
+
+        - YOLO algorithm (instead of sliding, slicing the picture into different parts, so that one object won't appears in two localization)
+
+          ![](D:\Data\PythonProjects\tf_fmri_meg\reference\tf_factory\FireShot Capture 57 - Bounding Box Predictions I Coursera_ - https___www.coursera.org_learn_con.png)
+
+        - 
