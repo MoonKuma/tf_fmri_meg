@@ -145,8 +145,74 @@
 
       - From localization to bounding box 
 
-        - YOLO algorithm (instead of sliding, slicing the picture into different parts, so that one object won't appears in two localization)
+        - YOLO algorithm (instead of sliding, slicing the picture into different parts, so that one object (the center of it) won't appears in two boxes), You Only Look Once
 
           ![](D:\Data\PythonProjects\tf_fmri_meg\reference\tf_factory\FireShot Capture 57 - Bounding Box Predictions I Coursera_ - https___www.coursera.org_learn_con.png)
 
-        - 
+        - Anchor box - using more than one detection box incase of overlaping
+
+        - Non-max suppression - areas which have the largest relative IOU
+
+        ![](D:\Data\PythonProjects\tf_fmri_meg\reference\tf_factory\FireShot Capture 58 - YOLO Algorithm - deeplearning.ai I Cou_ - https___www.coursera.org_learn_con.png)
+
+12. Face recognition
+
+    - One-shot problem and learning similarity function
+
+      - One-shot : learn from one example to recognize the person again
+
+      - learning similarity function
+
+        ![](D:\Data\PythonProjects\tf_fmri_meg\reference\tf_factory\FireShot Capture 59 - One Shot Learning - deeplearning.ai I _ - https___www.coursera.org_learn_con.png)
+
+      - Using soft-max won work for new comers.
+
+      - But such similarity function could be helpful for it is trained independent to the identity of people, and hence capable of accepting new ones
+
+    - Train this through a Siamese Network
+
+      ![](D:\Data\PythonProjects\tf_fmri_meg\reference\tf_factory\FireShot Capture 60 - Siamese Network - deeplearning.ai I Co_ - https___www.coursera.org_learn_con.png)
+
+      Compute the same network and have it learnt that if the input pics are from different person the output also have larger difference
+
+    - Triplet loss function
+
+      - A - anchor
+      - P - positive sample (different pics from same person)
+      - N - negative sample (pics from different person)
+      - alpha - margin value, this is to force the model to give different judgement of AP and AN
+
+      ![](D:\Data\PythonProjects\tf_fmri_meg\reference\tf_factory\FireShot Capture 61 - Triplet Loss I Coursera_ - https___www.coursera.org_learn_con.png)
+
+      [Caution] During training, one still need more than one images of the same person
+
+      [Caution] According to the new loss functions, the model stop learning when criteria met 
+
+      [Caution] Yet it's generally easier for the model to consider pics from different persons more different than from the same person, so some hard triplet examples are required for enhance the performance
+
+    - Or using two pics and predict only whether they are from the same person
+
+      ![](D:\Data\PythonProjects\tf_fmri_meg\reference\tf_factory\FireShot Capture 62 - Face Verification and Binary Classific_ - https___www.coursera.org_learn_con.png)
+
+      For applying well-trained (fixed) model, pre-compute (store the encoding of the pictures instead of he raw pics) could save a lot of time.
+
+13. Neural style transfer
+
+    - Visualizing what a deep network is learning
+
+      - 9 image patches that cause one of the hidden units(1 filer in layer 1) reach its maximum activation
+
+        ![](D:\Data\PythonProjects\tf_fmri_meg\reference\tf_factory\FireShot Capture 63 - What are deep ConvNets learning_ - dee_ - https___www.coursera.org_learn_con.png)
+
+      - As going deeper, the hidden units start to detect more complex textures
+
+    - Neural style transfer cost function: the pics generated(G) should be both like the C pic in content and the S pic in style
+
+      ![](D:\Data\PythonProjects\tf_fmri_meg\reference\tf_factory\FireShot Capture 64 - Cost Function - deeplearning.ai I Cour_ - https___www.coursera.org_learn_con.png)
+      - Cost function of C,G - defined as the difference of the activation of certain layer
+
+      - Cost function of S,G - defined as the correlation across channels in different layers
+
+        - lambda is used to control whether the generated image will share the elementary style with the style image more, or those complex style  
+
+        ![](D:\Data\PythonProjects\tf_fmri_meg\reference\tf_factory\FireShot Capture 66 - Style Cost Function - deeplearning.ai _ - https___www.coursera.org_learn_con.png)
